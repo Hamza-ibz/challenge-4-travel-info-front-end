@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouseChimney, faUser, faBookmark } from '@fortawesome/free-solid-svg-icons';
 import Button from 'react-bootstrap/Button';
@@ -54,16 +54,18 @@ const Header = () => {
                   </NavDropdown.Item>
                 </NavDropdown>
               </Nav>
-              <Nav className="justify-content-end flex-grow-1 pe-3"></Nav>
-              <Form className="d-flex">
-                <Form.Control
-                  type="search"
-                  placeholder="Search"
-                  className="me-2"
-                  aria-label="Search"
-                />
-                <Button variant="outline-success">Search</Button>
-              </Form>
+              <Nav className="justify-content-end flex-grow-1 pe-3">
+                {useLocation().pathname === '/' ? '' :
+                  <Form className="d-flex">
+                    <Form.Control
+                      type="search"
+                      placeholder="Search"
+                      className="me-2"
+                      aria-label="Search"
+                    />
+                    <Button variant="outline-success">Search</Button>
+                  </Form>}
+              </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Container>
