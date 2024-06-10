@@ -24,9 +24,9 @@ const Weather = () => {
         }
 
         setWeatherData(returnedData);
-        setCity(returnedData.city.name);
-        console.log(weatherData);
-        console.log(city);
+        setCity(returnedData.name);
+        // console.log(weatherData);
+        // console.log(city);
     };
 
     useEffect(() => {
@@ -35,16 +35,49 @@ const Weather = () => {
         }
     }, [location]);
 
+    const showWeather = () => {
+        if (!weatherData || !weatherData.main) {
+            return <div>Loading current weather...</div>;
+        }
+
+        const { main, weather } = weatherData;
+        const weatherDescription = weather[0].description;
+        const temperatureCelsius = Math.round(main.temp - 273.15);
+        const weatherIcon = weather[0].icon;
+
+        return (
+            <div className="weather-box" data-test-id="weather-data">
+                <h2>Weather in {city.charAt(0).toUpperCase() + city.slice(1)}</h2>
+                <div className="weather-info">
+                    <div className="weather-icon">
+                        <img src={`/assets/weather-icons/${weatherIcon}.svg`} alt="Weather Icon" />
+                    </div>
+                    <div>Temperature: {temperatureCelsius}°C</div>
+                    <div>Weather: {weatherDescription}</div>
+                </div>
+            </div>
+        );
+    };
+
+    // useEffect(() => {
+    //     getWeatherData(location);
+    //     renderWeather();
+    // }, [])
+
+
     return (
         <div className="container-fluid">
             <div className="row">
-                <div className="col-4">
-                </div>
-                <div className="col-3">
+                <div>
                     <div>
                         <h1>Telling you about..</h1>
                         <h2>{city || 'Loading...'}</h2>
                     </div>
+                </div>
+            </div>
+            <div className="row">
+                <div>
+                    {showWeather()}
                 </div>
             </div>
 

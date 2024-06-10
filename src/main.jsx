@@ -8,6 +8,7 @@ import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css"; // they are in node_modules under bootstrap->dist->css folder // they are in node_modules under bootstrap->dist->css folder
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; // they are in node_modules under bootstrap->dist->css folder // they are in node_modules under bootstrap->dist->css folder
 
+
 ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
         <App />
@@ -18,3 +19,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     //     </Router>
     // </React.StrictMode>
 );
+
+// ReactDOM.createRoot(document.getElementById('root')).render(
+//     // <React.StrictMode>
+//     <BrowserRouter>
+//         <App />
+//     </BrowserRouter>
+//     // </React.StrictMode>,
+// )
