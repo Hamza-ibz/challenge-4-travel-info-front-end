@@ -60,12 +60,12 @@
 .loginBtnPrimary {
     width: 100%;
     padding: 12px;
-    background-color: #1b78cf;
-    border: none;
-    border-radius: 5px;
     color: #ffffff;
     font-size: 16px;
     cursor: pointer;
+    background-color: #1b78cf;
+    border: none;
+    border-radius: 5px;
 }
 
 .loginBtnPrimary:hover {
@@ -86,12 +86,20 @@
 .loginLink {
     color: #1183f6;
     text-decoration: none;
-    font-size: 14px;
+    margin-left: 3px;
+    /* font-size: 14px; */
 }
 
 .loginLink:hover {
     text-decoration: underline;
     color: #1258c2;
+}
+
+.register {
+    margin-top: 7%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* FontAwesome icon styling */

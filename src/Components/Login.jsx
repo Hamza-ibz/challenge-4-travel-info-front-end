@@ -1,8 +1,9 @@
 import React from 'react'
 import "./LoginPage.css"
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import Nav from 'react-bootstrap/Nav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     return (
@@ -19,9 +20,18 @@ const Login = () => {
                         <label htmlFor="password" className="loginFormLabel">Password</label>
                         <input type="password" className="loginFormControl" id="password" required />
                     </div>
+
                     <button type="submit" className="loginBtnPrimary">Login</button>
                 </form>
-                <p>Don't have an account? <a href="/" className="loginLink">Register here</a></p>
+
+
+                <p className="register">
+                    Don't have an account?
+                    <Nav.Link as={Link} to="/register" className="loginLink">
+                        <span className="loginLink"> Register here </span>
+                    </Nav.Link>
+                </p>
+
             </div>
         </div>
     )
