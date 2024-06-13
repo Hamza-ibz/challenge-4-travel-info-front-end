@@ -1,0 +1,122 @@
+
+
+/* Login page container */
+.loginPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* Container styling */
+.loginContainer {
+
+    max-width: 500px;
+    width: 90%;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    /* Center align all content */
+    display: flex;
+    flex-direction: column;
+    /* Align items vertically */
+    justify-content: center;
+    /* Center items vertically */
+    margin-bottom: 20px;
+    /* Add space below container */
+    margin-top: 100px;
+}
+
+.loginContainer h2 {
+    color: #333333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Form input styling */
+.loginFormLabel {
+    font-weight: bold;
+    color: #555555;
+    margin-bottom: 10px;
+    display: block;
+    /* Ensures labels stack on top of inputs */
+    text-align: left;
+    /* Align labels to the left */
+}
+
+.loginFormControl {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Button styling */
+.loginBtnPrimary {
+    width: 100%;
+    padding: 12px;
+    background-color: #1b78cf;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.loginBtnPrimary:hover {
+    background-color: #4562a0;
+}
+
+/* Error message styling */
+.loginAlertDanger {
+    color: #861829;
+    background-color: #e9c7c9;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border-color: #e0abb0;
+    padding: 12px;
+}
+
+/* Link styling */
+.loginLink {
+    color: #1183f6;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.loginLink:hover {
+    text-decoration: underline;
+    color: #1258c2;
+}
+
+/* FontAwesome icon styling */
+.loginIcon {
+    font-size: 80px;
+    /* Adjust icon size as needed */
+    color: #3b3838;
+    /* Icon color */
+    margin-bottom: 20px;
+    /* Spacing below the icon */
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    /* Ensure icon is centered */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .loginContainer {
+        padding: 20px;
+        /* Adjust padding for smaller screens */
+    }
+
+    .loginIcon {
+        font-size: 60px;
+        /* Decrease icon size for smaller screens */
+    }
+}

@@ -32,7 +32,7 @@ const Header = () => {
                 <Nav.Link as={Link} to="/" style={{ marginLeft: '3rem' }}>
                   <FontAwesomeIcon icon={faHouseChimney} /> Home
                 </Nav.Link >
-                <Nav.Link as={Link} to="/" style={{ marginLeft: '3rem' }}>
+                <Nav.Link as={Link} to="/login" style={{ marginLeft: '3rem' }}>
                   <FontAwesomeIcon icon={faUser} /> Login
                 </Nav.Link>
 

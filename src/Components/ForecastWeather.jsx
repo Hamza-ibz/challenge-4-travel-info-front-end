@@ -5,7 +5,7 @@ const ForecastWeather = ({ forecastData, city }) => {
     if (Object.keys(forecastData).length === 0) {
         return <p>Loading current forecast data...</p>;
     }
-    console.log(forecastData.list)
+    // console.log(forecastData.list)
     const days = forecastData.list.filter((item, index) => index % 8 === 0).slice(0, 4);
     // console.log();
 
