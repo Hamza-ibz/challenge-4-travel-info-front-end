@@ -1,0 +1,14 @@
+.footer {
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 10px 0;
+}
+
+.footer .text-center {
+    text-align: center;
+}
+
+.footer .py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}

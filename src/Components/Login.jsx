@@ -1,5 +1,5 @@
 import React from 'react'
-import "./LoginPage.css"
+import "./Login.css"
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import Nav from 'react-bootstrap/Nav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

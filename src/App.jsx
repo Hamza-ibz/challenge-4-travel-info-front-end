@@ -6,6 +6,7 @@ import Login from './Components/Login';
 import Register from './Components/Register';
 import React, { useEffect } from "react";
 import { useState } from "react";
+import "./App.css"
 // import { Routes, Route } from 'react-router-dom';
 
 import { Routes, Route } from "react-router-dom";
@@ -22,14 +23,16 @@ const App = () => {
     }, [favouritePlace]);
 
     return (
-        <div>
+        <div className="app-container">
             <Header />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/weather/:location" element={<Weather favouritePlace={favouritePlace} setFavouritePlace={setFavouritePlace} refreshFavouriteLocations={refreshFavouriteLocations} />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-            </Routes>
+            <div className="content-wrap">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/weather/:location" element={<Weather favouritePlace={favouritePlace} setFavouritePlace={setFavouritePlace} refreshFavouriteLocations={refreshFavouriteLocations} />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                </Routes>
+            </div>
             <Footer />
         </div>
     )
