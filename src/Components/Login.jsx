@@ -3,10 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { loginUser } from '../services/userService'; // Adjust path as needed
+import { loginUser } from '../services/userService';
+import { useLocation } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
+    const location = useLocation();
+    const { successfulRegistration } = location.state || { successfulRegistration: { message: '', display: false } };
+    console.log(successfulRegistration);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -37,6 +41,7 @@ const Login = () => {
             <div className="loginContainer">
                 <h2>Login</h2>
                 <FontAwesomeIcon icon={faUser} className="loginIcon" />
+                {successfulRegistration.display && <div className="userSuccessful">{successfulRegistration.message}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="email" className="loginFormLabel">
@@ -82,5 +87,3 @@ const Login = () => {
 };
 
 export default Login;
-
-

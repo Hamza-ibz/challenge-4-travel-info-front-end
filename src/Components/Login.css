@@ -116,6 +116,25 @@
     /* Ensure icon is centered */
 }
 
+.userErrorAlert {
+    color: #82252e;
+    background-color: #ddbfc2;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border-color: #e6b7bc;
+    padding: 10px;
+
+}
+
+.userSuccessful {
+    color: #104b1b;
+    background-color: #a2dcab;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border-color: #b1e3b2;
+    padding: 10px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .loginContainer {

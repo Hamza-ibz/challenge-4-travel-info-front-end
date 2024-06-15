@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { Nav } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import { registerUser } from '../services/userService'; // Adjust path as needed
 import './Login.css';
 
@@ -13,10 +14,11 @@ const Register = () => {
         password: '',
         confirmPassword: '',
     });
-    const [error, setError] = useState({ message: ``, type: ``, display: false });
+    const [error, setError] = useState({ message: ``, display: false });
+    const navigate = useNavigate();
 
 
-    const [registrationMessage, setRegistrationMessage] = useState('');
+    const [successfulRegistration, setSuccessfulRegistration] = useState({ message: ``, display: false });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,16 +30,28 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError({
+            message: "",
+            display: false,
+        });
 
         // Validate password strength
         const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         if (!passwordRegex.test(formData.password)) {
-            alert('Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character.');
+            // alert('Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character.');
+            setError({
+                message: "Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character.",
+                display: true,
+            });
             return;
         }
 
         if (formData.password !== formData.confirmPassword) {
-            alert('Passwords do not match.');
+            // alert('Passwords do not match.');
+            setError({
+                message: "Passwords do not match.",
+                display: true,
+            });
             return;
         }
 
@@ -53,16 +67,28 @@ const Register = () => {
         if (response instanceof Error) {
             setError({
                 message: noResponseMessageStart + " " + response.response.data.errors[0].msg,
-                type: `post`,
                 display: true,
             });
-            console.log(error.message);
-            console.error('Error registering user:', error);
-            alert(error.message); // Handle error state
+            // console.log(error.message);
+            // console.error('Error registering user:', error);
+            // alert(error.message); // Handle error state
+        } else {
+            setSuccessfulRegistration({
+                message: "You have Registered successfully",
+                display: true
+            });
+            setFormData({
+                username: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+            });
+            // console.log(successfulRegistration);
+            navigate('/login', { state: { successfulRegistration: { message: "You have Registered successfully", display: true } } });
         }
         // try {
         //     const response = await registerUser(userData);
-        //     setRegistrationMessage('Registration successful! Please login.');
+        //     setsuccessfulRegistration('Registration successful! Please login.');
         //     setFormData({
         //         username: '',
         //         email: '',
@@ -81,6 +107,8 @@ const Register = () => {
             <div className="loginContainer">
                 <h2>Register</h2>
                 <FontAwesomeIcon icon={faUserPlus} className="loginIcon" />
+                {error.display && <div className="userErrorAlert">{error.message}</div>}
+                {successfulRegistration.display && <div className="userSuccessful">{successfulRegistration.message}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="username" className="loginFormLabel">
@@ -142,7 +170,6 @@ const Register = () => {
                         Register
                     </button>
                 </form>
-                {registrationMessage && <p>{registrationMessage}</p>}
                 <p className="register">
                     Already have an account?{' '}
                     <Nav.Link as={Link} to="/login" className="loginLink">
@@ -155,5 +182,3 @@ const Register = () => {
 };
 
 export default Register;
-
-
