@@ -12,14 +12,14 @@ const workingWithResponse = async (response) => {
 };
 
 export const registerUser = async (formData) => {
-    console.log(formData);
+    // console.log(formData);
     try {
         const response = await axios.post(`${BASE_URL}/register`, formData, {
             headers: {
                 'Content-Type': 'application/json',
             },
         });
-        return response.data; // Assuming you want to work with response data
+        return response.data;
     } catch (error) {
         // throw new Error(error.response?.data?.message || error.message);
         return error;
@@ -33,8 +33,9 @@ export const loginUser = async (formData) => {
                 'Content-Type': 'application/json',
             },
         });
-        return response.data; // Assuming you want to work with response data
+        return response.data;
     } catch (error) {
-        throw new Error(error.response?.data?.message || error.message);
+        // throw new Error(error.response?.data?.message || error.message);
+        return error;
     }
 };

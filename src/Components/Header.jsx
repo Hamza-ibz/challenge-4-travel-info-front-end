@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouseChimney, faUser, faBookmark } from '@fortawesome/free-solid-svg-icons';
+import { faHouseChimney, faUser, faBookmark, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -9,8 +9,35 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { useState } from 'react';
+import InfoModal from './utils/InfoModal';
 
 const Header = () => {
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  const checkLoggedIn = () => {
+    if (localStorage.getItem('token') != null) {
+      setLoggedIn(true);
+      localStorage.removeItem('token');
+      // alert("you have logged out");
+      navigate('/login');
+    } else {
+      setLoggedIn(false);
+    }
+  }
+
+  const handleLogout = () => {
+    // <InfoModal closeModal={""} message={"Location not found, please check input. (" + error.message + ")"} />
+    // localStorage.removeItem('token');
+    // alert("you have logged out");
+    // navigate('/login');
+    checkLoggedIn();
+  };
+
+
+
   return (
     <header>
       <Navbar bg="dark" key='xl' expand='xl' className="bg-primary-subtle mb-3">
@@ -32,10 +59,17 @@ const Header = () => {
                 <Nav.Link as={Link} to="/" style={{ marginLeft: '3rem' }}>
                   <FontAwesomeIcon icon={faHouseChimney} /> Home
                 </Nav.Link >
-                <Nav.Link as={Link} to="/login" style={{ marginLeft: '3rem' }}>
-                  <FontAwesomeIcon icon={faUser} /> Login
-                </Nav.Link>
+                {localStorage.getItem('token') === null ? (
+                  <Nav.Link as={Link} to="/login" style={{ marginLeft: '3rem' }}>
+                    <FontAwesomeIcon icon={faUser} /> Login
+                  </Nav.Link>
+                ) : (
+                  <Nav.Link as={Link} to="/login" style={{ marginLeft: '3rem' }} onClick={handleLogout}>
+                    <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+                  </Nav.Link>
+                )}
 
+                {loggedIn && <InfoModal closeModal={() => setLoggedIn(false)} message={"User has Logged out."} />}
                 <NavDropdown
                   title={<span>
                     <FontAwesomeIcon icon={faBookmark} /> Favourite

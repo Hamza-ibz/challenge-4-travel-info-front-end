@@ -46,7 +46,7 @@ const Search = () => {
                 <button className="btn btn-dark my-2 my-sm-0" type="submit" >Search</button>
             </form>
             {error.display ? <p>Location not found, please check input</p> : null}
-            {error.display && <InfoModal closeModal={() => setError({ ...error, display: false })} message={error.message} />}
+            {error.display && <InfoModal closeModal={() => setError({ ...error, display: false })} message={"Location not found, please check input. (" + error.message + ")"} />}
 
         </div>
     );
