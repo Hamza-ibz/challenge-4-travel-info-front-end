@@ -11,11 +11,17 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useState } from 'react';
 import InfoModal from './utils/InfoModal';
+import { getWeatherService } from '../services/weatherService';
+
 
 const Header = () => {
 
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
+
+  const [search, setSearch] = useState('');
+  const [error, setError] = useState({ message: ``, type: ``, display: false });
+
 
   const checkLoggedIn = () => {
     if (localStorage.getItem('token') != null) {
@@ -34,6 +40,36 @@ const Header = () => {
     // alert("you have logged out");
     // navigate('/login');
     checkLoggedIn();
+  };
+
+  const getSearch = async () => {
+    // if (!search.trim()) return;
+    const returnedData = await getWeatherService(search);
+    if (returnedData instanceof Error) {
+      setError({
+        message: returnedData.message,
+        type: `get`,
+        display: true,
+      });
+      setSearch('');
+    } else {
+      setError({
+        message: returnedData.message,
+        type: `get`,
+        display: false,
+      });
+      // console.log(returnedData);
+      navigate(`/weather/${search}`);
+    }
+  }
+
+  const handleChange = (event) => {
+    setSearch(event.target.value);
+  };
+
+  const submit = (event) => {
+    event.preventDefault();
+    getSearch();
   };
 
 
@@ -88,18 +124,24 @@ const Header = () => {
                   </NavDropdown.Item>
                 </NavDropdown>
               </Nav>
-              <Nav className="justify-content-end flex-grow-1 pe-3">
+              <Nav className="justify-content-end flex-grow-1 pe-3" >
                 {useLocation().pathname === '/' ? '' :
-                  <Form className="d-flex">
+                  <Form className="d-flex" onSubmit={submit}>
                     <Form.Control
                       type="search"
                       placeholder="Search"
                       className="me-2"
                       aria-label="Search"
+                      value={search}
+                      onChange={handleChange}
                     />
-                    <Button variant="outline-success">Search</Button>
+                    <Button variant="outline-success" type="submit">Search</Button>
                   </Form>}
+                {error.display ? <p>Location not found, please check input</p> : null}
+                {error.display && <InfoModal closeModal={() => setError({ ...error, display: false })} message={"Location not found, please check input. (" + error.message + ")"} />}
+
               </Nav>
+
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Container>

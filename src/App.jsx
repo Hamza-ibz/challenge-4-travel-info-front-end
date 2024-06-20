@@ -31,6 +31,7 @@ const App = () => {
                     <Route path="/weather/:location" element={<Weather favouritePlace={favouritePlace} setFavouritePlace={setFavouritePlace} refreshFavouriteLocations={refreshFavouriteLocations} />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/header" element={<Header />} />
                 </Routes>
             </div>
             <Footer />

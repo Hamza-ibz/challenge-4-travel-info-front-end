@@ -37,7 +37,7 @@ const Login = () => {
         if (response instanceof Error) {
             console.log(response);
             setError({
-                message: "Login Failed. " + response.response.data.message,
+                message: "Login Failed. " + (response.response?.data?.message || response.message || "An unknown error occurred."),
                 display: true,
             });
             // console.log(error.message);
