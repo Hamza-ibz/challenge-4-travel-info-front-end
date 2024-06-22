@@ -1,45 +1,46 @@
+import React, { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import Footer from './Components/Footer';
 import Home from './Components/Home';
 import Header from './Components/Header';
 import Weather from './Components/Weather';
 import Login from './Components/Login';
 import Register from './Components/Register';
-import React, { useEffect } from "react";
+import AllFavouritePlaces from './Components/AllFavouritePlaces'; // Import the new component
 import { getFavouriteLocations } from './services/userService';
-import { useState } from "react";
-import "./App.css"
-// import { Routes, Route } from 'react-router-dom';
-
-import { Routes, Route } from "react-router-dom";
+import "./App.css";
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
-
     const [favouritePlace, setFavouritePlace] = useState([]);
-
     const [loadFavourite, setLoadFavourite] = useState(false);
 
     const loadFavourites = async () => {
         const fav = await getFavouriteLocations();
-        // console.log(fav)
         setFavouritePlace(fav);
-        // console.log(favouritePlace)
     };
 
     useEffect(() => {
         if (localStorage.getItem("token"))
-            setLoggedIn("true");
+            setLoggedIn(true);
     }, []);
 
     useEffect(() => {
-        setLoadFavourite(false);
-        loadFavourites();
-    }, [loggedIn, loadFavourite]);
+        if (loggedIn) {
+            loadFavourites();
+        }
+    }, [loggedIn]);
 
+    useEffect(() => {
+        if (loadFavourite) {
+            setLoadFavourite(false);
+            loadFavourites();
+        }
+    }, [loadFavourite]);
 
     return (
         <div className="app-container">
-            <Header />
+            <Header favouritePlace={favouritePlace} />
             <div className="content-wrap">
                 <Routes>
                     <Route path="/" element={<Home />} />
@@ -47,11 +48,13 @@ const App = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/header" element={<Header />} />
+                    <Route path="/all-favourites" element={<AllFavouritePlaces favouritePlace={favouritePlace} />} /> {/* New route */}
                 </Routes>
             </div>
             <Footer />
         </div>
-    )
+    );
 };
 
 export default App;
+

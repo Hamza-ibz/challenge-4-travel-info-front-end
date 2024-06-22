@@ -2,22 +2,15 @@ import React from 'react'
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getWeatherService, getForecastService } from '../services/weatherService';
-// import { getForecastService } from '../services/weatherService';
 import { addFavouriteLocation, removeFavouriteLocation } from '../services/userService';
 import TodayWeather from './TodayWeather';
 import ForecastWeather from './ForecastWeather';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark, faCalendarXmark } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 import './Weather.css';
 import InfoModal from './utils/InfoModal';
 
-
-
-// rafce to create code structure
-
 const Weather = (props) => {
-
     const { location } = useParams();
     const [weatherData, setWeatherData] = useState({});
     const [forecastData, setForecastData] = useState({});
@@ -34,12 +27,10 @@ const Weather = (props) => {
                 display: true,
             });
             setWeatherData({});
+        } else {
+            setWeatherData(returnedData);
+            setCity(returnedData.name);
         }
-
-        setWeatherData(returnedData);
-        setCity(returnedData.name);
-        // console.log(weatherData);
-        // console.log(city);
     };
 
     const getForecastData = async (location) => {
@@ -51,19 +42,16 @@ const Weather = (props) => {
                 display: true,
             });
             setForecastData({});
+        } else {
+            setForecastData(returnedData);
+            setCity(returnedData.city.name);
         }
-
-        setForecastData(returnedData);
-        setCity(returnedData.city.name);
-        // console.log(returnedData);
-        // console.log(city);
     };
 
     useEffect(() => {
         if (location !== undefined) {
             getWeatherData(location);
             getForecastData(location);
-            // console.log(forecastData.city.name);
         }
     }, [location]);
 
@@ -74,65 +62,27 @@ const Weather = (props) => {
         }
     }, [city, props.favouritePlace]);
 
-    const handleAddToFavourites = () => {
-        addFavourite();
-        setAlreadyFavourited(true);
-        // console.log(addToFav);
-
-    };
-
-    // const isFavourite = () => {
-    //     let fav = false;
-
-    //     props.favouritePlace.forEach((favourite) => {
-    //         if (favourite.location === city) {
-    //             setAlreadyFavourited(true);
-    //             fav = true;
-    //         }
-    //     });
-
-    //     console.log(fav);
-    //     return fav;
-    // }
-
-    const addFavourite = async () => {
-
+    const handleAddToFavourites = async () => {
         const returnedData = await addFavouriteLocation(city);
         if (returnedData instanceof Error) {
-            if (returnedData.message === 'No token found, please login') {
-                // Handle the specific 'No token found' error
-                setError({
-                    message: returnedData.message,
-                    type: 'auth',
-                    display: true,
-                });
-            } else {
-                setError({
-                    message: 'Favourite location added unsuccessfully.',
-                    type: 'post',
-                    display: true,
-                });
-            }
+            setError({
+                message: returnedData.message === 'No token found, please login' ? returnedData.message : 'Favourite location added unsuccessfully.',
+                type: 'post',
+                display: true,
+            });
         } else {
             setError({
-                message: returnedData.message,
+                message: 'Favourite location added successfully.',
                 type: `post`,
                 display: false,
             });
-            props.setLoadFavourite(true)
-            // console.log(returnedData);
-            // navigate(`/weather/${search}`);
+            props.setLoadFavourite(true);
+            setAlreadyFavourited(true);
             return returnedData;
         }
-    }
-
-    const handleRemoveFromFavourites = () => {
-        removeFavourite();
-        setAlreadyFavourited(false);
     };
 
-    const removeFavourite = async () => {
-        // if (!search.trim()) return;
+    const handleRemoveFromFavourites = async () => {
         const returnedData = await removeFavouriteLocation(city);
         if (returnedData instanceof Error) {
             setError({
@@ -142,16 +92,15 @@ const Weather = (props) => {
             });
         } else {
             setError({
-                message: returnedData.message,
+                message: 'Favourite location removed successfully.',
                 type: `post`,
                 display: false,
             });
-            // console.log(returnedData);
-            // navigate(`/weather/${search}`);
+            props.setLoadFavourite(true);
+            setAlreadyFavourited(false);
             return returnedData;
         }
-    }
-
+    };
 
     return (
         <div className="container-fluid">
@@ -166,16 +115,16 @@ const Weather = (props) => {
             <div className="row">
                 <TodayWeather weatherData={weatherData} city={city} />
                 <div style={{
-                    border: '2px solid black', padding: '5px', borderRadius: '5px', width: '200px', // Set your desired width here
+                    border: '2px solid black', padding: '5px', borderRadius: '5px', width: '200px',
                     display: 'inline-block',
                     overflow: 'hidden',
                     textAlign: 'center',
                 }}>
                     {alreadyFavourited ? (
                         <>
-                            <span onClick={() => handleRemoveFromFavourites(city)} style={{
+                            <span onClick={handleRemoveFromFavourites} style={{
                                 cursor: 'pointer',
-                                width: '50px', // Set your desired width here
+                                width: '50px',
                                 display: 'inline-block',
                                 overflow: 'hidden',
                                 textAlign: 'center',
@@ -186,9 +135,9 @@ const Weather = (props) => {
                         </>
                     ) : (
                         <>
-                            <span onClick={() => handleAddToFavourites()} style={{
+                            <span onClick={handleAddToFavourites} style={{
                                 cursor: 'pointer',
-                                width: '50px', // Set your desired width here
+                                width: '50px',
                                 display: 'inline-block',
                                 overflow: 'hidden',
                                 textAlign: 'center',
@@ -197,27 +146,13 @@ const Weather = (props) => {
                             </span>
                             <p>Click icon to add to favourites</p>
                         </>
-
                     )}
                 </div>
-
                 <ForecastWeather forecastData={forecastData} city={city} />
             </div>
             {error.display && <InfoModal closeModal={() => setError({ ...error, display: false })} message={error.message} />}
-
         </div>
-
     )
-}
+};
 
 export default Weather;
-
-// // rafce to create code structure
-
-// const Weather = () => {
-//     return (
-//         <div>Weather</div>
-//     )
-// }
-
-// export default Weather

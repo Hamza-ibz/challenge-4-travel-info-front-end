@@ -13,21 +13,17 @@ import { useState } from 'react';
 import InfoModal from './utils/InfoModal';
 import { getWeatherService } from '../services/weatherService';
 
-
-const Header = () => {
-
+const Header = ({ favouritePlace }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   const [search, setSearch] = useState('');
   const [error, setError] = useState({ message: ``, type: ``, display: false });
 
-
   const checkLoggedIn = () => {
     if (localStorage.getItem('token') != null) {
       setLoggedIn(true);
       localStorage.removeItem('token');
-      // alert("you have logged out");
       navigate('/login');
     } else {
       setLoggedIn(false);
@@ -35,15 +31,10 @@ const Header = () => {
   }
 
   const handleLogout = () => {
-    // <InfoModal closeModal={""} message={"Location not found, please check input. (" + error.message + ")"} />
-    // localStorage.removeItem('token');
-    // alert("you have logged out");
-    // navigate('/login');
     checkLoggedIn();
   };
 
   const getSearch = async () => {
-    // if (!search.trim()) return;
     const returnedData = await getWeatherService(search);
     if (returnedData instanceof Error) {
       setError({
@@ -58,7 +49,6 @@ const Header = () => {
         type: `get`,
         display: false,
       });
-      // console.log(returnedData);
       navigate(`/weather/${search}`);
     }
   }
@@ -72,13 +62,11 @@ const Header = () => {
     getSearch();
   };
 
-
-
   return (
     <header>
       <Navbar bg="dark" key='xl' expand='xl' className="bg-primary-subtle mb-3">
         <Container fluid>
-          <Navbar.Brand to="/">WeatherWhenever</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/">WeatherWhenever</Navbar.Brand>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-xl`} />
           <Navbar.Offcanvas
             id={`offcanvasNavbar-expand-${'xl'}`}
@@ -104,8 +92,6 @@ const Header = () => {
                     <FontAwesomeIcon icon={faSignOutAlt} /> Logout
                   </Nav.Link>
                 )}
-
-                {loggedIn && <InfoModal closeModal={() => setLoggedIn(false)} message={"User has Logged out."} />}
                 <NavDropdown
                   title={<span>
                     <FontAwesomeIcon icon={faBookmark} /> Favourite
@@ -113,15 +99,17 @@ const Header = () => {
                   id={`offcanvasNavbarDropdown-expand-xl`}
                   style={{ marginLeft: '3rem' }}
                 >
-
-                  <NavDropdown.Item as={Link} to="/">Action</NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/">
-                    Another action
-                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/all-favourites">All Favourite Places</NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item as={Link} to="/">
-                    Something else here
-                  </NavDropdown.Item>
+                  {favouritePlace.length > 0 ? (
+                    favouritePlace.map((fav, index) => (
+                      <NavDropdown.Item key={index} as={Link} to={`/weather/${fav.location}`}>
+                        {fav.location}
+                      </NavDropdown.Item>
+                    ))
+                  ) : (
+                    <NavDropdown.Item>No favourites added yet</NavDropdown.Item>
+                  )}
                 </NavDropdown>
               </Nav>
               <Nav className="justify-content-end flex-grow-1 pe-3" >
@@ -139,9 +127,7 @@ const Header = () => {
                   </Form>}
                 {error.display ? <p>Location not found, please check input</p> : null}
                 {error.display && <InfoModal closeModal={() => setError({ ...error, display: false })} message={"Location not found, please check input. (" + error.message + ")"} />}
-
               </Nav>
-
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Container>
@@ -151,3 +137,4 @@ const Header = () => {
 };
 
 export default Header;
+
