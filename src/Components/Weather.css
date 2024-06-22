@@ -1,0 +1,21 @@
+.hover-icon-bookmark {
+    transition: color 0.3s, transform 0.3s;
+}
+
+.hover-icon-bookmark:hover {
+    color: rgb(53, 131, 14);
+    /* Change this to your desired hover color */
+    transform: scale(1.1);
+    /* Optional: Add scaling on hover */
+}
+
+.hover-icon-remove {
+    transition: color 0.3s, transform 0.3s;
+}
+
+.hover-icon-remove:hover {
+    color: rgb(176, 12, 12);
+    /* Change this to your desired hover color */
+    transform: scale(1.1);
+    /* Optional: Add scaling on hover */
+}

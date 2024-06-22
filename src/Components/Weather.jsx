@@ -1,14 +1,17 @@
 import React from 'react'
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getWeatherService } from '../services/weatherService';
-import { getForecastService } from '../services/weatherService';
+import { getWeatherService, getForecastService } from '../services/weatherService';
+// import { getForecastService } from '../services/weatherService';
+import { addFavouriteLocation, removeFavouriteLocation } from '../services/userService';
 import TodayWeather from './TodayWeather';
 import ForecastWeather from './ForecastWeather';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark, faCalendarXmark } from '@fortawesome/free-solid-svg-icons';
-
 import axios from 'axios';
+import './Weather.css';
+
+
 // rafce to create code structure
 
 const Weather = (props) => {
@@ -33,7 +36,7 @@ const Weather = (props) => {
 
         setWeatherData(returnedData);
         setCity(returnedData.name);
-        console.log(weatherData);
+        // console.log(weatherData);
         // console.log(city);
     };
 
@@ -65,6 +68,8 @@ const Weather = (props) => {
         if (isUniqueLocation(weatherData, currentFavourites)) {
             const updatedFavourites = createUpdatedFavourites(weatherData, currentFavourites);
             updateFavouritesState(updatedFavourites);
+            const addToFav = addFavourite();
+            // console.log(addToFav);
         }
     };
 
@@ -85,6 +90,29 @@ const Weather = (props) => {
         localStorage.setItem('favouritePlace', JSON.stringify(updatedFavourites));
         props.refreshFavouriteLocations(updatedFavourites);
     };
+
+    const addFavourite = async () => {
+        // if (!search.trim()) return;
+        const returnedData = await addFavouriteLocation(city);
+        if (returnedData instanceof Error) {
+            setError({
+                message: 'Favourite location added unsuccessfully.',
+                type: 'post',
+                display: true,
+            });
+        } else {
+            setError({
+                message: returnedData.message,
+                type: `post`,
+                display: false,
+            });
+            // console.log(returnedData);
+            // navigate(`/weather/${search}`);
+            return returnedData;
+        }
+    }
+
+
 
     // const addToFavourite = (weatherData, favouriteLocations) => {
     //     if (!checkForDuplicates(weatherData, favouriteLocations)) {
@@ -107,6 +135,7 @@ const Weather = (props) => {
         const updatedFavourites = getUpdatedFavouritesList(city);
         saveUpdatedFavourites(updatedFavourites);
         updateFavouritesStateRemoved(updatedFavourites);
+        const removeToFav = removeFavourite();
     };
 
     const getUpdatedFavouritesList = (city) => {
@@ -121,6 +150,27 @@ const Weather = (props) => {
         props.setFavouritePlace(updatedFavourites);
         setAlreadyFavourited(false);
     };
+
+    const removeFavourite = async () => {
+        // if (!search.trim()) return;
+        const returnedData = await removeFavouriteLocation(city);
+        if (returnedData instanceof Error) {
+            setError({
+                message: 'Favourite location removed unsuccessfully.',
+                type: 'post',
+                display: true,
+            });
+        } else {
+            setError({
+                message: returnedData.message,
+                type: `post`,
+                display: false,
+            });
+            // console.log(returnedData);
+            // navigate(`/weather/${search}`);
+            return returnedData;
+        }
+    }
 
     // const checkForDuplicates = (weatherData, favouriteLocations) => {
     //     return favouriteLocations.some(location => location.location === weatherData.name);
@@ -139,22 +189,41 @@ const Weather = (props) => {
             </div>
             <div className="row">
                 <TodayWeather weatherData={weatherData} city={city} />
-                {alreadyFavourited ? (
-                    <>
-                        <span onClick={() => handleRemoveFromFavourites(city)} style={{ cursor: 'pointer' }}>
-                            <FontAwesomeIcon icon={faCalendarXmark} />
-                        </span>
-                        <p>Click to remove from favourites</p>
-                    </>
-                ) : (
-                    <>
-                        <span onClick={() => handleAddToFavourites(weatherData, props.favouritePlace)} style={{ cursor: 'pointer' }}>
-                            <FontAwesomeIcon icon={faBookmark} alt="Favourited" />
-                        </span>
-                        <p>Click to add to favourites</p>
-                    </>
+                <div style={{
+                    border: '2px solid black', padding: '5px', borderRadius: '5px', width: '200px', // Set your desired width here
+                    display: 'inline-block',
+                    overflow: 'hidden',
+                    textAlign: 'center',
+                }}>
+                    {alreadyFavourited ? (
+                        <>
+                            <span onClick={() => handleRemoveFromFavourites(city)} style={{
+                                cursor: 'pointer',
+                                width: '50px', // Set your desired width here
+                                display: 'inline-block',
+                                overflow: 'hidden',
+                                textAlign: 'center',
+                            }}>
+                                <FontAwesomeIcon icon={faCalendarXmark} size="2x" className="hover-icon-remove" />
+                            </span>
+                            <p>Click icon to remove from favourites</p>
+                        </>
+                    ) : (
+                        <>
+                            <span onClick={() => handleAddToFavourites(weatherData, props.favouritePlace)} style={{
+                                cursor: 'pointer',
+                                width: '50px', // Set your desired width here
+                                display: 'inline-block',
+                                overflow: 'hidden',
+                                textAlign: 'center',
+                            }}>
+                                <FontAwesomeIcon icon={faBookmark} alt="Favourited" size="2x" className="hover-icon-bookmark" />
+                            </span>
+                            <p>Click icon to add to favourites</p>
+                        </>
 
-                )}
+                    )}
+                </div>
 
                 <ForecastWeather forecastData={forecastData} city={city} />
             </div>

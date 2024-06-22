@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://127.0.0.1:3000'; // Replace with your actual backend API base URL
+const BASE_URL = 'http://127.0.0.1:3000';
 
 const workingWithResponse = async (response) => {
     if (response.ok) {
@@ -37,5 +37,54 @@ export const loginUser = async (formData) => {
     } catch (error) {
         // throw new Error(error.response?.data?.message || error.message);
         return error;
+    }
+};
+
+// Add a favourite location
+export const addFavouriteLocation = async (location) => {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error('No token found, please login');
+        }
+
+        const response = await axios.post(
+            `${BASE_URL}/favouriteLocations`,
+            { location },
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error adding favourite location:', error);
+        throw error; // Re-throw the error after logging it
+    }
+};
+
+export const removeFavouriteLocation = async (location) => {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error('No token found, please login');
+        }
+
+        const response = await axios.delete(
+            `${BASE_URL}/favouriteLocations`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: { location } // Use `data` to send the body in a DELETE request
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error removing favourite location:', error);
+        throw error; // Re-throw the error after logging it
     }
 };
