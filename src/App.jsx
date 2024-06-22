@@ -6,7 +6,7 @@ import Header from './Components/Header';
 import Weather from './Components/Weather';
 import Login from './Components/Login';
 import Register from './Components/Register';
-import AllFavouritePlaces from './Components/AllFavouritePlaces'; // Import the new component
+import AllFavouritePlaces from './Components/AllFavouritePlaces';
 import { getFavouriteLocations } from './services/userService';
 import "./App.css";
 
@@ -18,6 +18,10 @@ const App = () => {
     const loadFavourites = async () => {
         const fav = await getFavouriteLocations();
         setFavouritePlace(fav);
+    };
+
+    const resetFavourites = () => {
+        setFavouritePlace([]);
     };
 
     useEffect(() => {
@@ -40,15 +44,15 @@ const App = () => {
 
     return (
         <div className="app-container">
-            <Header favouritePlace={favouritePlace} />
+            <Header favouritePlace={favouritePlace} resetFavourites={resetFavourites} />
             <div className="content-wrap">
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/weather/:location" element={<Weather favouritePlace={favouritePlace} setLoadFavourite={setLoadFavourite} loggedIn={loggedIn} />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/login" element={<Login setLoggedIn={setLoggedIn} loadFavourites={loadFavourites} />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/header" element={<Header />} />
-                    <Route path="/all-favourites" element={<AllFavouritePlaces favouritePlace={favouritePlace} />} /> {/* New route */}
+                    <Route path="/all-favourites" element={<AllFavouritePlaces favouritePlace={favouritePlace} setLoadFavourite={setLoadFavourite} />} />
                 </Routes>
             </div>
             <Footer />

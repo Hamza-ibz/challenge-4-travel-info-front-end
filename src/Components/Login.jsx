@@ -8,16 +8,15 @@ import { useLocation } from 'react-router-dom';
 import './Login.css';
 import InfoModal from './utils/InfoModal';
 
-const Login = () => {
+const Login = ({ setLoggedIn, loadFavourites }) => {
     const location = useLocation();
     const { successfulRegistration } = location.state || { successfulRegistration: { message: '', display: false } };
-    // console.log(successfulRegistration);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
     const [error, setError] = useState({ message: ``, display: false });
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedInState] = useState(false);
 
     const navigate = useNavigate();
 
@@ -40,27 +39,13 @@ const Login = () => {
                 message: "Login Failed. " + (response.response?.data?.message || response.message || "An unknown error occurred."),
                 display: true,
             });
-            // console.log(error.message);
-            // console.error('Error registering user:', error);
-            // alert(error.message); // Handle error state
         } else {
             console.log(response);
             localStorage.setItem('token', response.token); // Store the token in local storage
             setLoggedIn(true);
-            // alert('Login successful!'); // Replace with desired action after successful login
-            // navigate('/');
+            loadFavourites();
+            setLoggedInState(true);
         }
-        // try {
-        //     const response = await loginUser(formData);
-        //     console.log(response);
-        //     localStorage.setItem('token', response.token); // Store the token in local storage
-        //     // alert('Login successful!'); // Replace with desired action after successful login
-        //     navigate('/');
-        //     // Redirect or any other action after successful login
-        // } catch (error) {
-        //     console.error('Error logging in:', error);
-        //     alert('Login failed.'); // Handle error state
-        // }
     };
 
     return (
@@ -116,3 +101,4 @@ const Login = () => {
 };
 
 export default Login;
+

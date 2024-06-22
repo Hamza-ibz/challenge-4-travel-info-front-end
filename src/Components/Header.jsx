@@ -9,29 +9,35 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import InfoModal from './utils/InfoModal';
 import { getWeatherService } from '../services/weatherService';
 
-const Header = ({ favouritePlace }) => {
+const Header = ({ favouritePlace, resetFavourites }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [search, setSearch] = useState('');
   const [error, setError] = useState({ message: ``, type: ``, display: false });
 
+  useEffect(() => {
+    checkLoggedIn();
+  }, [location]);
+
   const checkLoggedIn = () => {
     if (localStorage.getItem('token') != null) {
       setLoggedIn(true);
-      localStorage.removeItem('token');
-      navigate('/login');
     } else {
       setLoggedIn(false);
     }
   }
 
   const handleLogout = () => {
-    checkLoggedIn();
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+    resetFavourites();
+    navigate('/login');
   };
 
   const getSearch = async () => {
@@ -83,13 +89,13 @@ const Header = ({ favouritePlace }) => {
                 <Nav.Link as={Link} to="/" style={{ marginLeft: '3rem' }}>
                   <FontAwesomeIcon icon={faHouseChimney} /> Home
                 </Nav.Link >
-                {localStorage.getItem('token') === null ? (
-                  <Nav.Link as={Link} to="/login" style={{ marginLeft: '3rem' }}>
-                    <FontAwesomeIcon icon={faUser} /> Login
-                  </Nav.Link>
-                ) : (
+                {loggedIn ? (
                   <Nav.Link as={Link} to="/login" style={{ marginLeft: '3rem' }} onClick={handleLogout}>
                     <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+                  </Nav.Link>
+                ) : (
+                  <Nav.Link as={Link} to="/login" style={{ marginLeft: '3rem' }}>
+                    <FontAwesomeIcon icon={faUser} /> Login
                   </Nav.Link>
                 )}
                 <NavDropdown
