@@ -43,11 +43,12 @@ export const loginUser = async (formData) => {
 // Fetch favourite locations
 export const getFavouriteLocations = async () => {
     const token = localStorage.getItem('token');
-    const response = await axios.get('/favouriteLocations', {
+    const response = await axios.get(`${BASE_URL}/favouriteLocations`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     });
+    // console.log(response.data)
     return response.data;
 };
 

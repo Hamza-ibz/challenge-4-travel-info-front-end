@@ -19,10 +19,12 @@ const App = () => {
 
     const [loadFavourite, setLoadFavourite] = useState(false);
 
-    async function loadFavourites() {
+    const loadFavourites = async () => {
         const fav = await getFavouriteLocations();
+        // console.log(fav)
         setFavouritePlace(fav);
-    }
+        // console.log(favouritePlace)
+    };
 
     useEffect(() => {
         if (localStorage.getItem("token"))

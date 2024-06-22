@@ -67,12 +67,33 @@ const Weather = (props) => {
         }
     }, [location]);
 
+    useEffect(() => {
+        if (city) {
+            const fav = props.favouritePlace.some((favourite) => favourite.location === city);
+            setAlreadyFavourited(fav);
+        }
+    }, [city, props.favouritePlace]);
+
     const handleAddToFavourites = () => {
         addFavourite();
         setAlreadyFavourited(true);
         // console.log(addToFav);
 
     };
+
+    // const isFavourite = () => {
+    //     let fav = false;
+
+    //     props.favouritePlace.forEach((favourite) => {
+    //         if (favourite.location === city) {
+    //             setAlreadyFavourited(true);
+    //             fav = true;
+    //         }
+    //     });
+
+    //     console.log(fav);
+    //     return fav;
+    // }
 
     const addFavourite = async () => {
 
