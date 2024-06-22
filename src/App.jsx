@@ -5,6 +5,7 @@ import Weather from './Components/Weather';
 import Login from './Components/Login';
 import Register from './Components/Register';
 import React, { useEffect } from "react";
+import { getFavouriteLocations } from './services/userService';
 import { useState } from "react";
 import "./App.css"
 // import { Routes, Route } from 'react-router-dom';
@@ -12,15 +13,27 @@ import "./App.css"
 import { Routes, Route } from "react-router-dom";
 
 const App = () => {
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const [favouritePlace, setFavouritePlace] = useState([]);
 
-    const refreshFavouriteLocations = (newLocationArray) => {
-        setFavouritePlace(newLocationArray);
+    const [loadFavourite, setLoadFavourite] = useState(false);
+
+    async function loadFavourites() {
+        const fav = await getFavouriteLocations();
+        setFavouritePlace(fav);
     }
 
     useEffect(() => {
-    }, [favouritePlace]);
+        if (localStorage.getItem("token"))
+            setLoggedIn("true");
+    }, []);
+
+    useEffect(() => {
+        setLoadFavourite(false);
+        loadFavourites();
+    }, [loggedIn, loadFavourite]);
+
 
     return (
         <div className="app-container">
@@ -28,7 +41,7 @@ const App = () => {
             <div className="content-wrap">
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/weather/:location" element={<Weather favouritePlace={favouritePlace} setFavouritePlace={setFavouritePlace} refreshFavouriteLocations={refreshFavouriteLocations} />} />
+                    <Route path="/weather/:location" element={<Weather favouritePlace={favouritePlace} setLoadFavourite={setLoadFavourite} loggedIn={loggedIn} />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/header" element={<Header />} />

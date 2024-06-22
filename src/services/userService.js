@@ -40,12 +40,24 @@ export const loginUser = async (formData) => {
     }
 };
 
+// Fetch favourite locations
+export const getFavouriteLocations = async () => {
+    const token = localStorage.getItem('token');
+    const response = await axios.get('/favouriteLocations', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return response.data;
+};
+
+
 // Add a favourite location
 export const addFavouriteLocation = async (location) => {
     try {
         const token = localStorage.getItem('token');
         if (!token) {
-            throw new Error('No token found, please login');
+            return new Error('No token found, please login');
         }
 
         const response = await axios.post(
@@ -61,7 +73,7 @@ export const addFavouriteLocation = async (location) => {
         return response.data;
     } catch (error) {
         console.error('Error adding favourite location:', error);
-        throw error; // Re-throw the error after logging it
+        return error; // Re-throw the error after logging it
     }
 };
 

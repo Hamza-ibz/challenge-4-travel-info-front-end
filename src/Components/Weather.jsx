@@ -10,6 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark, faCalendarXmark } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import './Weather.css';
+import InfoModal from './utils/InfoModal';
+
 
 
 // rafce to create code structure
@@ -53,7 +55,7 @@ const Weather = (props) => {
 
         setForecastData(returnedData);
         setCity(returnedData.city.name);
-        console.log(returnedData);
+        // console.log(returnedData);
         // console.log(city);
     };
 
@@ -61,93 +63,50 @@ const Weather = (props) => {
         if (location !== undefined) {
             getWeatherData(location);
             getForecastData(location);
+            // console.log(forecastData.city.name);
         }
     }, [location]);
 
-    const handleAddToFavourites = (weatherData, currentFavourites) => {
-        if (isUniqueLocation(weatherData, currentFavourites)) {
-            const updatedFavourites = createUpdatedFavourites(weatherData, currentFavourites);
-            updateFavouritesState(updatedFavourites);
-            const addToFav = addFavourite();
-            // console.log(addToFav);
-        }
-    };
-
-    const isUniqueLocation = (weatherData, currentFavourites) => {
-        return !currentFavourites.some(location => location.location === weatherData.name);
-    };
-
-    const createUpdatedFavourites = (weatherData, currentFavourites) => {
-        const newFavourite = {
-            location: weatherData.name,
-            country: weatherData.sys.country,
-        };
-        return [...currentFavourites, newFavourite];
-    };
-
-    const updateFavouritesState = (updatedFavourites) => {
+    const handleAddToFavourites = () => {
+        addFavourite();
         setAlreadyFavourited(true);
-        localStorage.setItem('favouritePlace', JSON.stringify(updatedFavourites));
-        props.refreshFavouriteLocations(updatedFavourites);
+        // console.log(addToFav);
+
     };
 
     const addFavourite = async () => {
-        // if (!search.trim()) return;
+
         const returnedData = await addFavouriteLocation(city);
         if (returnedData instanceof Error) {
-            setError({
-                message: 'Favourite location added unsuccessfully.',
-                type: 'post',
-                display: true,
-            });
+            if (returnedData.message === 'No token found, please login') {
+                // Handle the specific 'No token found' error
+                setError({
+                    message: returnedData.message,
+                    type: 'auth',
+                    display: true,
+                });
+            } else {
+                setError({
+                    message: 'Favourite location added unsuccessfully.',
+                    type: 'post',
+                    display: true,
+                });
+            }
         } else {
             setError({
                 message: returnedData.message,
                 type: `post`,
                 display: false,
             });
+            props.setLoadFavourite(true)
             // console.log(returnedData);
             // navigate(`/weather/${search}`);
             return returnedData;
         }
     }
 
-
-
-    // const addToFavourite = (weatherData, favouriteLocations) => {
-    //     if (!checkForDuplicates(weatherData, favouriteLocations)) {
-    //         const newLocation = { location: weatherData.name, country: weatherData.sys.country };
-    //         const newFavouriteLocations = [...favouriteLocations, newLocation];
-    //         setAlreadyFavourited(true);
-    //         localStorage.setItem('favouriteLocations', JSON.stringify(newFavouriteLocations));
-    //         props.updateFavouriteLocations(newFavouriteLocations);
-    //     }
-    // }
-
-    // const removeFromFavourites = (city) => {
-    //     const newLocationArray = props.favouritePlace.filter((data) => data.location !== city);
-    //     localStorage.setItem('favouritePlace', JSON.stringify(newLocationArray));
-    //     props.setFavouritePlace(newLocationArray);
-    //     setAlreadyFavourited(false);
-    // }
-
-    const handleRemoveFromFavourites = (city) => {
-        const updatedFavourites = getUpdatedFavouritesList(city);
-        saveUpdatedFavourites(updatedFavourites);
-        updateFavouritesStateRemoved(updatedFavourites);
-        const removeToFav = removeFavourite();
-    };
-
-    const getUpdatedFavouritesList = (city) => {
-        return props.favouritePlace.filter((data) => data.location !== city);
-    };
-
-    const saveUpdatedFavourites = (updatedFavourites) => {
-        localStorage.setItem('favouritePlace', JSON.stringify(updatedFavourites));
-    };
-
-    const updateFavouritesStateRemoved = (updatedFavourites) => {
-        props.setFavouritePlace(updatedFavourites);
+    const handleRemoveFromFavourites = () => {
+        removeFavourite();
         setAlreadyFavourited(false);
     };
 
@@ -171,10 +130,6 @@ const Weather = (props) => {
             return returnedData;
         }
     }
-
-    // const checkForDuplicates = (weatherData, favouriteLocations) => {
-    //     return favouriteLocations.some(location => location.location === weatherData.name);
-    // };
 
 
     return (
@@ -210,7 +165,7 @@ const Weather = (props) => {
                         </>
                     ) : (
                         <>
-                            <span onClick={() => handleAddToFavourites(weatherData, props.favouritePlace)} style={{
+                            <span onClick={() => handleAddToFavourites()} style={{
                                 cursor: 'pointer',
                                 width: '50px', // Set your desired width here
                                 display: 'inline-block',
@@ -227,6 +182,7 @@ const Weather = (props) => {
 
                 <ForecastWeather forecastData={forecastData} city={city} />
             </div>
+            {error.display && <InfoModal closeModal={() => setError({ ...error, display: false })} message={error.message} />}
 
         </div>
 
