@@ -47,7 +47,7 @@ const InfoModal = ({ closeModal, message }) => {
                             >
                             </button>
                         </div>
-                        <div className="modal-body text-danger">
+                        <div className="modal-body text-primary">
                             {message}
                         </div>
                         <div className="modal-footer">

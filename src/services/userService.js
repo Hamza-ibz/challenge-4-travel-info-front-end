@@ -11,6 +11,19 @@ const workingWithResponse = async (response) => {
     }
 };
 
+export const updatePassword = async (formData) => {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await axios.post(`${BASE_URL}/update-password`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        return new Error(error.response?.data?.message || 'An error occurred while updating the password.');
+    }
+};
 
 export const registerUser = async (formData) => {
     // console.log(formData);
@@ -43,14 +56,23 @@ export const loginUser = async (formData) => {
 
 // Fetch favourite locations
 export const getFavouriteLocations = async () => {
-    const token = localStorage.getItem('token');
-    const response = await axios.get(`${BASE_URL}/favouriteLocations`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            return new Error('No token found, please login');
         }
-    });
-    // console.log(response.data)
-    return response.data;
+
+        const response = await axios.get(`${BASE_URL}/favouriteLocations`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.log('Error fetching favourite locations:', error);
+        return new Error(error.response?.data?.message || 'An error occurred while fetching favourite locations.');
+    }
 };
 
 
@@ -74,8 +96,8 @@ export const addFavouriteLocation = async (location) => {
         );
         return response.data;
     } catch (error) {
-        console.error('Error adding favourite location:', error);
-        return error; // Re-throw the error after logging it
+        console.log('Error adding favourite location:', error);
+        return error;
     }
 };
 
@@ -83,7 +105,7 @@ export const removeFavouriteLocation = async (location) => {
     try {
         const token = localStorage.getItem('token');
         if (!token) {
-            throw new Error('No token found, please login');
+            return new Error('No token found, please login');
         }
 
         const response = await axios.delete(
@@ -98,7 +120,7 @@ export const removeFavouriteLocation = async (location) => {
         );
         return response.data;
     } catch (error) {
-        console.error('Error removing favourite location:', error);
-        throw error; // Re-throw the error after logging it
+        console.log('Error removing favourite location:', error);
+        return error;
     }
 };

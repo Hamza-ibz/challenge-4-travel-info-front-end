@@ -104,22 +104,19 @@ const Weather = (props) => {
 
     return (
         <div className="container-fluid">
-            <div className="row">
-                <div>
+            <div className="row justify-content-center">
+                <div className="col-10 col-md-5 center-content">
                     <div>
                         <h1>Telling you about..</h1>
                         <h2>{city || 'Loading...'}</h2>
                     </div>
                 </div>
             </div>
-            <div className="row">
+            <div className="row justify-content-center">
                 <TodayWeather weatherData={weatherData} city={city} />
-                <div style={{
-                    border: '2px solid black', padding: '5px', borderRadius: '5px', width: '200px',
-                    display: 'inline-block',
-                    overflow: 'hidden',
-                    textAlign: 'center',
-                }}>
+            </div>
+            <div className="row justify-content-center">
+                <div className="col-4 col-md-2 center-content">
                     {alreadyFavourited ? (
                         <>
                             <span onClick={handleRemoveFromFavourites} style={{

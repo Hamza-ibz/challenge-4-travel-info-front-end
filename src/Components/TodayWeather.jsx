@@ -1,4 +1,5 @@
 import React from 'react'
+import './Weather.css';
 
 const TodayWeather = ({ weatherData, city }) => {
 
@@ -16,14 +17,14 @@ const TodayWeather = ({ weatherData, city }) => {
     const icon = weather[0].icon;
 
     return (
-        <div>
+        <div className="col-6 col-md-4 today-weather">
             <h2>Weather in {city.charAt(0).toUpperCase() + city.slice(1)} Today</h2>
             <div>
                 <div >
                     <img src={`/assets/weather-icons/${icon}.svg`} alt="Weather Icon" />
                 </div>
-                <div>Temperature: {temperature}°C</div>
-                <div>Weather: {description}</div>
+                <div className="large-font">Temperature: {temperature}°C</div>
+                <div className="large-font">Weather: {description}</div>
             </div>
         </div>
     );

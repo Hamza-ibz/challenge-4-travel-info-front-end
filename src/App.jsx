@@ -17,8 +17,10 @@ const App = () => {
     const [loadFavourite, setLoadFavourite] = useState(false);
 
     const loadFavourites = async () => {
-        const fav = await getFavouriteLocations();
-        setFavouritePlace(fav);
+        if (localStorage.getItem("token")) {
+            const returnedData = await getFavouriteLocations();
+            setFavouritePlace(returnedData);
+        }
     };
 
     const resetFavourites = () => {
