@@ -17,7 +17,7 @@ const TodayWeather = ({ weatherData, city }) => {
 
     return (
         <div>
-            <h2>Weather in {city.charAt(0).toUpperCase() + city.slice(1)}</h2>
+            <h2>Weather in {city.charAt(0).toUpperCase() + city.slice(1)} Today</h2>
             <div>
                 <div >
                     <img src={`/assets/weather-icons/${icon}.svg`} alt="Weather Icon" />

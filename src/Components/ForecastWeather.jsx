@@ -6,7 +6,7 @@ const ForecastWeather = ({ forecastData, city }) => {
         return <p>Loading current forecast data...</p>;
     }
     // console.log(forecastData.list)
-    const days = forecastData.list.filter((item, index) => index % 8 === 0).slice(0, 4);
+    const days = forecastData.list.filter((item, index) => index % 8 === 0).slice(1, 5);
     // console.log();
 
     const forecast = days.map((day, index) => {

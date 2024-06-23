@@ -1,5 +1,3 @@
-
-
 /* Login page container */
 .loginPage {
     display: flex;
@@ -10,7 +8,6 @@
 
 /* Container styling */
 .loginContainer {
-
     max-width: 500px;
     width: 90%;
     background-color: #ffffff;
@@ -18,14 +15,10 @@
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     text-align: center;
-    /* Center align all content */
     display: flex;
     flex-direction: column;
-    /* Align items vertically */
     justify-content: center;
-    /* Center items vertically */
     margin-bottom: 20px;
-    /* Add space below container */
     margin-top: 50px;
 }
 
@@ -41,9 +34,7 @@
     color: #555555;
     margin-bottom: 10px;
     display: block;
-    /* Ensures labels stack on top of inputs */
     text-align: left;
-    /* Align labels to the left */
 }
 
 .loginFormControl {
@@ -87,7 +78,6 @@
     color: #1183f6;
     text-decoration: none;
     margin-left: 3px;
-    /* font-size: 14px; */
 }
 
 .loginLink:hover {
@@ -105,28 +95,15 @@
 /* FontAwesome icon styling */
 .loginIcon {
     font-size: 80px;
-    /* Adjust icon size as needed */
     color: #3b3838;
-    /* Icon color */
     margin-bottom: 20px;
-    /* Spacing below the icon */
     margin-left: auto;
     margin-right: auto;
     display: block;
-    /* Ensure icon is centered */
 }
 
-.userErrorAlert {
-    color: #82252e;
-    background-color: #ddbfc2;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    border-color: #e6b7bc;
-    padding: 10px;
-
-}
-
-.userSuccessful {
+/* Success message styling */
+.userSuccessAlert {
     color: #104b1b;
     background-color: #a2dcab;
     margin-bottom: 15px;
@@ -135,15 +112,23 @@
     padding: 10px;
 }
 
+/* Error message styling */
+.userErrorAlert {
+    color: #82252e;
+    background-color: #ddbfc2;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border-color: #e6b7bc;
+    padding: 10px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .loginContainer {
         padding: 20px;
-        /* Adjust padding for smaller screens */
     }
 
     .loginIcon {
         font-size: 60px;
-        /* Decrease icon size for smaller screens */
     }
 }

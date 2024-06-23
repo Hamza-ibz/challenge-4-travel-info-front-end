@@ -95,14 +95,10 @@ const Login = ({ setLoggedIn, loadFavourites }) => {
                         <span className="loginLink"> Register here </span>
                     </Nav.Link>
                 </p>
-                <p className="forgotPassword">
-                    <Nav.Link as={Link} to="/forgot-password" className="loginLink">
-                        <span className="loginLink"> Forgot/Update Password? </span>
-                    </Nav.Link>
-                </p>
             </div>
         </div>
     );
 };
 
 export default Login;
+

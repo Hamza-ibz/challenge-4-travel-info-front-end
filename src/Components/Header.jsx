@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouseChimney, faUser, faBookmark, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faHouseChimney, faUser, faBookmark, faSignOutAlt, faKey } from '@fortawesome/free-solid-svg-icons'; // Import faKey icon
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -90,9 +90,14 @@ const Header = ({ favouritePlace, resetFavourites }) => {
                   <FontAwesomeIcon icon={faHouseChimney} /> Home
                 </Nav.Link >
                 {loggedIn ? (
-                  <Nav.Link as={Link} to="/login" style={{ marginLeft: '3rem' }} onClick={handleLogout}>
-                    <FontAwesomeIcon icon={faSignOutAlt} /> Logout
-                  </Nav.Link>
+                  <>
+                    <Nav.Link as={Link} to="/update-password" style={{ marginLeft: '3rem' }}>
+                      <FontAwesomeIcon icon={faKey} /> Update Password
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/login" style={{ marginLeft: '3rem' }} onClick={handleLogout}>
+                      <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+                    </Nav.Link>
+                  </>
                 ) : (
                   <Nav.Link as={Link} to="/login" style={{ marginLeft: '3rem' }}>
                     <FontAwesomeIcon icon={faUser} /> Login
@@ -143,4 +148,3 @@ const Header = ({ favouritePlace, resetFavourites }) => {
 };
 
 export default Header;
-
