@@ -7,6 +7,7 @@ import Weather from './Components/Weather';
 import Login from './Components/Login';
 import Register from './Components/Register';
 import AllFavouritePlaces from './Components/AllFavouritePlaces';
+import ForgotPassword from './Components/ForgotPassword'; // Import ForgotPassword component
 import { getFavouriteLocations } from './services/userService';
 import "./App.css";
 
@@ -51,6 +52,7 @@ const App = () => {
                     <Route path="/weather/:location" element={<Weather favouritePlace={favouritePlace} setLoadFavourite={setLoadFavourite} loggedIn={loggedIn} />} />
                     <Route path="/login" element={<Login setLoggedIn={setLoggedIn} loadFavourites={loadFavourites} />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} /> {/* Add ForgotPassword route */}
                     <Route path="/header" element={<Header />} />
                     <Route path="/all-favourites" element={<AllFavouritePlaces favouritePlace={favouritePlace} setLoadFavourite={setLoadFavourite} />} />
                 </Routes>
@@ -61,4 +63,5 @@ const App = () => {
 };
 
 export default App;
+
 
