@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { removeFavouriteLocation } from '../services/userService';
+import "./AllFavouritePlaces.css"
 
 const AllFavouritePlaces = ({ favouritePlace, setLoadFavourite }) => {
     const handleRemove = async (location) => {
@@ -13,7 +14,7 @@ const AllFavouritePlaces = ({ favouritePlace, setLoadFavourite }) => {
     };
 
     return (
-        <div className="container">
+        <div className="container table-container">
             <h2>All Favourite Places</h2>
             {favouritePlace.length > 0 ? (
                 <table className="table">

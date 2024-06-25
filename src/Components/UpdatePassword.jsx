@@ -48,7 +48,7 @@ const UpdatePassword = () => {
 
         const response = await updatePassword(formData);
         if (response instanceof Error) {
-            setMessage({ content: 'Failed to update password. Please try again.', type: 'error' });
+            setMessage({ content: 'Failed to update password. ' + response.message + ' Please try again.', type: 'error' });
         } else {
             setMessage({ content: 'Password updated successfully!', type: 'success' });
             setFormData({

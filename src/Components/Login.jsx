@@ -54,7 +54,7 @@ const Login = ({ setLoggedIn, loadFavourites }) => {
                 <h2>Login</h2>
                 <FontAwesomeIcon icon={faUser} className="loginIcon" />
                 {error.display && <div className="userErrorAlert">{error.message}</div>}
-                {successfulRegistration.display && <div className="userSuccessful">{successfulRegistration.message}</div>}
+                {successfulRegistration.display && <div className="userSuccessAlert">{successfulRegistration.message}</div>}
                 {loggedIn && <InfoModal closeModal={() => navigate('/')} message={"User has Logged in successfully."} />}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">

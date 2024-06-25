@@ -1,0 +1,63 @@
+/* Container styling for the table */
+.table-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    /* White background with opacity */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Table styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+/* Table header styling */
+.table th,
+.table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Table header background and text color */
+.table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+/* Table row hover effect */
+.table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Link styling */
+.table a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.table a:hover {
+    text-decoration: underline;
+}
+
+/* Button styling */
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
