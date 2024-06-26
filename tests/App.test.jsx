@@ -47,4 +47,27 @@ describe("App Component Tests", () => {
         expect(screen.getByRole('heading', { name: /Register/i })).toBeInTheDocument();
     });
 
+    it('should render "UpdatePassword" component on /update-password route', () => {
+        // Arrange & Act
+        render(
+            <MemoryRouter initialEntries={['/update-password']}>
+                <App />
+            </MemoryRouter>
+        );
+
+        // Assert
+        expect(screen.getByRole('heading', { name: /Update Password/i })).toBeInTheDocument();
+    });
+
+    it('should render "AllFavouritePlaces" component on /all-favourites route', () => {
+        // Arrange & Act
+        render(
+            <MemoryRouter initialEntries={['/all-favourites']}>
+                <App />
+            </MemoryRouter>
+        );
+
+        // Assert
+        expect(screen.getByRole('heading', { name: /All Favourite Places/i })).toBeInTheDocument();
+    });
 });
