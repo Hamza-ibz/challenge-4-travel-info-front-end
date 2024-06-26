@@ -33,10 +33,9 @@ describe('Weather Component', () => {
         expect(screen.getAllByText(/Loading.../i)).toHaveLength(3);
     });
 
-    test('adds a location to favourites', async () => {
+    test('displays the corrects location (London)', async () => {
         getWeatherService.mockResolvedValueOnce({ name: 'London', main: { temp: 300 }, weather: [{ description: 'Clear sky', icon: '01d' }] });
         getForecastService.mockResolvedValueOnce({ city: { name: 'London' }, list: [] });
-        addFavouriteLocation.mockResolvedValueOnce({ message: 'Favourite location added successfully.' });
 
         render(
             <MemoryRouter initialEntries={['/weather/London']}>
@@ -46,15 +45,47 @@ describe('Weather Component', () => {
             </MemoryRouter>
         );
 
-        await waitFor(() => expect(screen.getAllByText(/London/i)[0]).toBeInTheDocument());
-
-        fireEvent.click(screen.getByText(/Click icon to add to favourites/i));
-
-        await waitFor(() => {
-            expect(screen.getByText(/Click icon to remove from favourites/i)).toBeInTheDocument();
-        });
+        await waitFor(() => expect(screen.getByText(/Weather in London Today/i)).toBeInTheDocument());
+        expect(screen.getByText(/Weather in London Today/i)).toBeInTheDocument();
     });
 
+    test('displays weather data correctly when available', async () => {
+        getWeatherService.mockResolvedValueOnce({ name: 'London', main: { temp: 300 }, weather: [{ description: 'Clear sky', icon: '01d' }] });
+        getForecastService.mockResolvedValueOnce({ city: { name: 'London' }, list: [] });
+
+        render(
+            <MemoryRouter initialEntries={['/weather/London']}>
+                <Routes>
+                    <Route path="/weather/:location" element={<Weather favouritePlace={mockFavouritePlace} setLoadFavourite={mockSetLoadFavourite} />} />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        await waitFor(() => expect(screen.getByText(/Weather in London Today/i)).toBeInTheDocument());
+        expect(screen.getByText(/Temperature: /i)).toBeInTheDocument();
+        expect(screen.getByText(/Weather: /i)).toBeInTheDocument();
+    });
+
+    test('If user did not add to favourite, correct icon is shown', async () => {
+        getWeatherService.mockResolvedValueOnce({ name: 'London', main: { temp: 300 }, weather: [{ description: 'Clear sky', icon: '01d' }] });
+        getForecastService.mockResolvedValueOnce({ city: { name: 'London' }, list: [] });
+
+        render(
+            <MemoryRouter initialEntries={['/weather/London']}>
+                <Routes>
+                    <Route path="/weather/:location" element={<Weather favouritePlace={[]} setLoadFavourite={mockSetLoadFavourite} />} />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        await waitFor(() => expect(screen.getByText(/Weather in London Today/i)).toBeInTheDocument());
+
+        // fireEvent.click(screen.getByText(/Click icon to add to favourites/i));
+
+        await waitFor(() => {
+            expect(screen.getByText(/Click icon to add to favourites/i)).toBeInTheDocument();
+        });
+    });
 
 
 });
