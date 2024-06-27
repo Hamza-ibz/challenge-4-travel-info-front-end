@@ -2,15 +2,6 @@ import axios from 'axios';
 
 const BASE_URL = 'http://127.0.0.1:3000';
 
-const workingWithResponse = async (response) => {
-    if (response.ok) {
-        return await response.json();
-    } else {
-        const error = await response.json();
-        throw new Error(error.message);
-    }
-};
-
 export const updatePassword = async (formData) => {
     try {
         const token = localStorage.getItem('token');
