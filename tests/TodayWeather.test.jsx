@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import TodayWeather from '../src/Components/TodayWeather';
+import TodayWeather from '../src/Components/pages/weather/TodayWeather';
 
 describe('TodayWeather Component', () => {
     test('displays loading message when no weather data is available', () => {

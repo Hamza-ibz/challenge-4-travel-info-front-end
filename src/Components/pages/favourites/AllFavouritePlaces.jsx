@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { removeFavouriteLocation } from '../services/userService';
-import "./AllFavouritePlaces.css"
+import { removeFavouriteLocation } from '../../../services/userService';
+import "../../css/AllFavouritePlaces.css"
 
 const AllFavouritePlaces = ({ favouritePlace, setLoadFavourite }) => {
     const handleRemove = async (location) => {

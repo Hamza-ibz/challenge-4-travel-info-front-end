@@ -3,9 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { Nav } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-// import { useHistory } from 'react-router-dom';
-import { registerUser } from '../services/userService'; // Adjust path as needed
-import './Login.css';
+import { registerUser } from '../../../services/userService';
+import '../../css/Login.css';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -38,7 +37,6 @@ const Register = () => {
         // Validate password strength
         const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         if (!passwordRegex.test(formData.password)) {
-            // alert('Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character.');
             setError({
                 message: "Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character.",
                 display: true,
@@ -47,7 +45,6 @@ const Register = () => {
         }
 
         if (formData.password !== formData.confirmPassword) {
-            // alert('Passwords do not match.');
             setError({
                 message: "Passwords do not match.",
                 display: true,
@@ -69,9 +66,6 @@ const Register = () => {
                 message: noResponseMessageStart + " " + response.response.data.errors[0].msg,
                 display: true,
             });
-            // console.log(error.message);
-            // console.error('Error registering user:', error);
-            // alert(error.message); // Handle error state
         } else {
             setSuccessfulRegistration({
                 message: "You have Registered successfully",
@@ -83,23 +77,8 @@ const Register = () => {
                 password: '',
                 confirmPassword: '',
             });
-            // console.log(successfulRegistration);
             navigate('/login', { state: { successfulRegistration: { message: "You have Registered successfully", display: true } } });
         }
-        // try {
-        //     const response = await registerUser(userData);
-        //     setsuccessfulRegistration('Registration successful! Please login.');
-        //     setFormData({
-        //         username: '',
-        //         email: '',
-        //         password: '',
-        //         confirmPassword: '',
-        //     });
-        // } catch (error) {
-        //     console.log(error);
-        //     console.error('Error registering user:', error);
-        //     alert('Registration failed.'); // Handle error state
-        // }
     };
 
     return (

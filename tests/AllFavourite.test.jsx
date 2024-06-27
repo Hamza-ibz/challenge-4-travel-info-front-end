@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { vi } from 'vitest';
-import AllFavouritePlaces from '../src/Components/AllFavouritePlaces';
+import AllFavouritePlaces from '../src/Components/pages/favourites/AllFavouritePlaces';
 import { removeFavouriteLocation } from '../src/services/userService';
 
 // Mock the removeFavouriteLocation function

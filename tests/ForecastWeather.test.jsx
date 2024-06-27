@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import ForecastWeather from '../src/Components/ForecastWeather';
+import ForecastWeather from '../src/Components/pages/weather/ForecastWeather.jsx';
 import testForecastData from '../tests/data/testForecastData.js';
 
 describe('ForecastWeather Component', () => {

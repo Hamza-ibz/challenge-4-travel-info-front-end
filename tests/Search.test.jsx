@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { vi } from 'vitest';
-import Search from '../src/Components/Search';
+import Search from '../src/Components/pages/home/Search';
 import { getWeatherService } from '../src/services/weatherService';
 
 // Mock the weather service

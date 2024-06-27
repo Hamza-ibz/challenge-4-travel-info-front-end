@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey } from '@fortawesome/free-solid-svg-icons';
-import { updatePassword } from '../services/userService';
-import './Login.css'; // Reuse the Login.css for styling
+import { updatePassword } from '../../../services/userService';
+import '../../css/Login.css'; // Reuse the Login.css for styling
 
 const UpdatePassword = () => {
     const [formData, setFormData] = useState({

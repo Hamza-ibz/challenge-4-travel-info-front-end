@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { Nav } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../services/userService';
+import { loginUser } from '../../../services/userService';
 import { useLocation } from 'react-router-dom';
-import './Login.css';
-import InfoModal from './utils/InfoModal';
+import '../../css/Login.css';
+import InfoModal from '../../utils/InfoModal';
 
 const Login = ({ setLoggedIn, loadFavourites }) => {
     const location = useLocation();

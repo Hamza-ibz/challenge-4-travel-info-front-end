@@ -1,8 +1,7 @@
 import { useState } from 'react';
-// import { FaSearch } from 'react-icons/fa';
-import { getWeatherService } from '../services/weatherService';
+import { getWeatherService } from '../../../services/weatherService';
 import { useNavigate } from 'react-router-dom';
-import InfoModal from './utils/InfoModal';
+import InfoModal from '../../utils/InfoModal';
 
 const Search = () => {
     const [search, setSearch] = useState('');

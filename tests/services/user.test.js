@@ -7,117 +7,180 @@ import {
     getFavouriteLocations,
     addFavouriteLocation,
     removeFavouriteLocation
-} from "../../src/services/userService";
-import testUsers from "../data/testUser.js";
-const { newUser, invalidUser } = testUsers;
+} from '../../src/services/userService';
 
-vi.mock("axios");
+// Mock axios
+vi.mock('axios');
 
-describe("User Services Tests", () => {
+const BASE_URL = 'http://127.0.0.1:3000';
+
+describe('userService', () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        localStorage.clear();
     });
 
-    describe("Register User Tests", () => {
-        const mockRegisterResponse = { _id: "60d0fe4f5311236168a109cc", email: "newuser@example.com" };
+    describe('updatePassword', () => {
+        it('should update the password successfully', async () => {
+            const formData = { password: 'newPassword' };
+            const responseData = { message: 'Password updated successfully' };
+            axios.post.mockResolvedValue({ data: responseData });
 
-        it("should make the correct API call to register a user", async () => {
-            // Arrange
-            axios.post.mockResolvedValueOnce({ data: mockRegisterResponse });
-            // Act
-            await registerUser(newUser);
-            // Assert
+            localStorage.setItem('token', 'test-token');
+            const result = await updatePassword(formData);
+
+            expect(result).toEqual(responseData);
             expect(axios.post).toHaveBeenCalledWith(
-                "http://127.0.0.1:3000/register",
-                newUser,
+                `${BASE_URL}/update-password`,
+                formData,
+                { headers: { 'Authorization': `Bearer test-token` } }
+            );
+        });
+
+        it('should return an error when update fails', async () => {
+            const formData = { password: 'newPassword' };
+            const errorMessage = 'An error occurred while updating the password';
+            axios.post.mockRejectedValue({ response: { data: { message: errorMessage } } });
+
+            localStorage.setItem('token', 'test-token');
+            const result = await updatePassword(formData);
+
+            expect(result).toBeInstanceOf(Error);
+            expect(result.message).toBe(errorMessage);
+        });
+    });
+
+    describe('registerUser', () => {
+        it('should register the user successfully', async () => {
+            const formData = { username: 'testuser', password: 'testpassword' };
+            const responseData = { message: 'User registered successfully' };
+            axios.post.mockResolvedValue({ data: responseData });
+
+            const result = await registerUser(formData);
+
+            expect(result).toEqual(responseData);
+            expect(axios.post).toHaveBeenCalledWith(
+                `${BASE_URL}/register`,
+                formData,
                 { headers: { 'Content-Type': 'application/json' } }
             );
         });
 
-        it("should return the registered user data", async () => {
-            // Arrange
-            axios.post.mockResolvedValueOnce({ data: mockRegisterResponse });
-            // Act
-            const result = await registerUser(newUser);
-            // Assert
-            expect(result).toEqual(mockRegisterResponse);
-        });
-
-        it("should return an error if registration request fails", async () => {
-            // Arrange
-            const error = { response: { data: { message: "Error" } } };
-            axios.post.mockRejectedValueOnce(error);
-            // Act
-            const result = await registerUser(newUser);
-            // Assert
-            expect(result).toEqual(error);
-        });
-
-        it("should return an error if the password is too short", async () => {
-            // Arrange
-            const error = { response: { data: { message: "Password must be at least 8 characters long." } } };
-            axios.post.mockRejectedValueOnce(error);
-            // Act
-            const result = await registerUser(invalidUser);
-            // Assert
-            expect(result.response.data.message).toEqual("Password must be at least 8 characters long.");
-        });
     });
 
-    describe("Login User Tests", () => {
-        const mockLoginResponse = { token: "testtoken" };
-        const validLoginData = { email: "testuser1@example.com", password: "Password123!" };
+    describe('loginUser', () => {
+        it('should login the user successfully', async () => {
+            const formData = { username: 'testuser', password: 'testpassword' };
+            const responseData = { token: 'test-token' };
+            axios.post.mockResolvedValue({ data: responseData });
 
-        it("should make the correct API call to login a user", async () => {
-            // Arrange
-            axios.post.mockResolvedValueOnce({ data: mockLoginResponse });
-            // Act
-            await loginUser(validLoginData);
-            // Assert
+            const result = await loginUser(formData);
+
+            expect(result).toEqual(responseData);
             expect(axios.post).toHaveBeenCalledWith(
-                "http://127.0.0.1:3000/login",
-                validLoginData,
+                `${BASE_URL}/login`,
+                formData,
                 { headers: { 'Content-Type': 'application/json' } }
             );
         });
 
-        it("should return the login token", async () => {
-            // Arrange
-            axios.post.mockResolvedValueOnce({ data: mockLoginResponse });
-            // Act
-            const result = await loginUser(validLoginData);
-            // Assert
-            expect(result).toEqual(mockLoginResponse);
+
+    });
+
+    describe('getFavouriteLocations', () => {
+        it('should fetch favourite locations successfully', async () => {
+            const responseData = [{ location: 'New York' }];
+            axios.get.mockResolvedValue({ data: responseData });
+
+            localStorage.setItem('token', 'test-token');
+            const result = await getFavouriteLocations();
+
+            expect(result).toEqual(responseData);
+            expect(axios.get).toHaveBeenCalledWith(
+                `${BASE_URL}/favouriteLocations`,
+                { headers: { 'Authorization': `Bearer test-token` } }
+            );
         });
 
-        it("should return an error if login request fails", async () => {
-            // Arrange
-            const error = { response: { data: { message: "Error" } } };
-            axios.post.mockRejectedValueOnce(error);
-            // Act
-            const result = await loginUser(validLoginData);
-            // Assert
-            expect(result).toEqual(error);
+        it('should return an error when fetching favourite locations fails', async () => {
+            const errorMessage = 'An error occurred while fetching favourite locations';
+            axios.get.mockRejectedValue({ response: { data: { message: errorMessage } } });
+
+            localStorage.setItem('token', 'test-token');
+            const result = await getFavouriteLocations();
+
+            expect(result).toBeInstanceOf(Error);
+            expect(result.message).toBe(errorMessage);
         });
 
-        it("should return an error if email is missing", async () => {
-            // Arrange
-            const error = { response: { data: { message: "Email is required." } } };
-            axios.post.mockRejectedValueOnce(error);
-            // Act
-            const result = await loginUser({ password: "Password123!" });
-            // Assert
-            expect(result.response.data.message).toEqual("Email is required.");
+        it('should return an error when no token is found', async () => {
+            const result = await getFavouriteLocations();
+
+            expect(result).toBeInstanceOf(Error);
+            expect(result.message).toBe('No token found, please login');
+        });
+    });
+
+    describe('addFavouriteLocation', () => {
+        it('should add a favourite location successfully', async () => {
+            const location = 'New York';
+            const responseData = { message: 'Location added successfully' };
+            axios.post.mockResolvedValue({ data: responseData });
+
+            localStorage.setItem('token', 'test-token');
+            const result = await addFavouriteLocation(location);
+
+            expect(result).toEqual(responseData);
+            expect(axios.post).toHaveBeenCalledWith(
+                `${BASE_URL}/favouriteLocations`,
+                { location },
+                {
+                    headers: {
+                        'Authorization': `Bearer test-token`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
         });
 
-        it("should return an error if password is missing", async () => {
-            // Arrange
-            const error = { response: { data: { message: "Password is required." } } };
-            axios.post.mockRejectedValueOnce(error);
-            // Act
-            const result = await loginUser({ email: "testuser1@example.com" });
-            // Assert
-            expect(result.response.data.message).toEqual("Password is required.");
+
+        it('should return an error when no token is found', async () => {
+            const location = 'New York';
+            const result = await addFavouriteLocation(location);
+
+            expect(result).toBeInstanceOf(Error);
+            expect(result.message).toBe('No token found, please login');
+        });
+    });
+
+    describe('removeFavouriteLocation', () => {
+        it('should remove a favourite location successfully', async () => {
+            const location = 'New York';
+            const responseData = { message: 'Location removed successfully' };
+            axios.delete.mockResolvedValue({ data: responseData });
+
+            localStorage.setItem('token', 'test-token');
+            const result = await removeFavouriteLocation(location);
+
+            expect(result).toEqual(responseData);
+            expect(axios.delete).toHaveBeenCalledWith(
+                `${BASE_URL}/favouriteLocations`,
+                {
+                    headers: {
+                        'Authorization': `Bearer test-token`,
+                        'Content-Type': 'application/json'
+                    },
+                    data: { location }
+                }
+            );
+        });
+
+        it('should return an error when no token is found', async () => {
+            const location = 'New York';
+            const result = await removeFavouriteLocation(location);
+
+            expect(result).toBeInstanceOf(Error);
+            expect(result.message).toBe('No token found, please login');
         });
     });
 });

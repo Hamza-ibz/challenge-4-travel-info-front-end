@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Footer from './Components/Footer';
-import Home from './Components/Home';
+import Home from './Components/pages/home/Home';
 import Header from './Components/Header';
-import Weather from './Components/Weather';
-import Login from './Components/Login';
-import Register from './Components/Register';
-import AllFavouritePlaces from './Components/AllFavouritePlaces';
-import UpdatePassword from './Components/UpdatePassword'; // Import UpdatePassword component
+import Weather from './Components/pages/weather/Weather';
+import Login from './Components/pages/user/Login';
+import Register from './Components/pages/user/Register';
+import AllFavouritePlaces from './Components/pages/favourites/AllFavouritePlaces';
+import UpdatePassword from './Components/pages/user/UpdatePassword'; // Import UpdatePassword component
 import { getFavouriteLocations } from './services/userService';
 import "./App.css";
 

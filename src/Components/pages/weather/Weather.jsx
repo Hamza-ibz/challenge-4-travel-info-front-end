@@ -1,14 +1,14 @@
 import React from 'react'
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getWeatherService, getForecastService } from '../services/weatherService';
-import { addFavouriteLocation, removeFavouriteLocation } from '../services/userService';
+import { getWeatherService, getForecastService } from '../../../services/weatherService';
+import { addFavouriteLocation, removeFavouriteLocation } from '../../../services/userService';
 import TodayWeather from './TodayWeather';
 import ForecastWeather from './ForecastWeather';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark, faCalendarXmark } from '@fortawesome/free-solid-svg-icons';
-import './Weather.css';
-import InfoModal from './utils/InfoModal';
+import '../../css/Weather.css';
+import InfoModal from '../../utils/InfoModal';
 
 const Weather = (props) => {
     const { location } = useParams();

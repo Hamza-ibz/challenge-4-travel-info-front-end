@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, vi, test } from "vitest";
-import Register from "../src/Components/Register";
+import Register from "../src/Components/pages/user/Register";
 import { registerUser } from "../src/services/userService";
 vi.mock("../src/services/userService");
 describe("Tests for Register component", () => {

@@ -1,10 +1,7 @@
 import React from 'react'
-import './Weather.css';
+import '../../css/Weather.css';
 
 const TodayWeather = ({ weatherData, city }) => {
-
-    // console.log(city);
-    // console.log(weatherData);
 
     // const showWeather = () => {
     if (Object.keys(weatherData).length === 0) {

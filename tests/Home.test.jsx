@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Home from '../src/Components/Home';
-import Search from '../src/Components/Search';
+import Home from '../src/Components/pages/home/Home';
+import Search from '../src/Components/pages/home/Search';
 import { vi } from 'vitest';
 
 vi.mock('../src/Components/Search', () => {

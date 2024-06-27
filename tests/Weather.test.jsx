@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { vi } from 'vitest';
-import Weather from '../src/Components/Weather';
+import Weather from '../src/Components/pages/weather/Weather';
 import { getWeatherService, getForecastService } from '../src/services/weatherService';
 import { addFavouriteLocation, removeFavouriteLocation } from '../src/services/userService';
 

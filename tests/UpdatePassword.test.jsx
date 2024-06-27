@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
-import UpdatePassword from '../src/Components/UpdatePassword';
+import UpdatePassword from '../src/Components/pages/user/UpdatePassword';
 import { updatePassword } from '../src/services/userService';
 
 // Mock the updatePassword service
