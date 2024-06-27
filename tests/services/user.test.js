@@ -7,8 +7,8 @@ import {
     getFavouriteLocations,
     addFavouriteLocation,
     removeFavouriteLocation
-} from "../../src/services/userService"; // Adjust the path as needed
-import testUsers from "../data/testUser.js"; // Create testUsers file with sample data
+} from "../../src/services/userService";
+import testUsers from "../data/testUser.js";
 const { newUser, invalidUser } = testUsers;
 
 vi.mock("axios");
