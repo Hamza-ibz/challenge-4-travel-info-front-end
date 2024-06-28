@@ -1,10 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import Home from '../src/Components/pages/home/Home';
-import Search from '../src/Components/pages/home/Search';
 import { vi } from 'vitest';
 
-vi.mock('../src/Components/Search', () => {
+// Mock the Search component
+vi.mock('../src/Components/pages/home/Search', () => {
     return {
         __esModule: true,
         default: () => <div data-testid="search-component">Mocked Search Component</div>,
@@ -13,12 +14,17 @@ vi.mock('../src/Components/Search', () => {
 
 describe('Home Component', () => {
     it('renders Home component and includes Search component', () => {
-        render(<Home />);
+        // Arrange: Wrap Home component with BrowserRouter and render it
+        render(
+            <BrowserRouter>
+                <Home />
+            </BrowserRouter>
+        );
 
-        // Check for the heading text
+        // Assert: Check for the heading text
         expect(screen.getByText(/Tell Me About/i)).toBeInTheDocument();
 
-        // Check if the mocked Search component is rendered
+        // Assert: Check if the mocked Search component is rendered
         expect(screen.getByTestId('search-component')).toBeInTheDocument();
     });
 });
